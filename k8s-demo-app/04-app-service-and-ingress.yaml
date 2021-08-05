@@ -1,0 +1,32 @@
+# Service
+kind: Service
+apiVersion: v1
+metadata:
+  name: my-super-app-service
+spec:
+  selector:
+    app: myexpressapp
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+
+---
+# Ingress
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: my-super-app-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: my-super-app-service
+                port:
+                  number: 8080
