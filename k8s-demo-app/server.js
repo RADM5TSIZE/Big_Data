@@ -72,7 +72,7 @@ async function getFromDatabase(userid) {
 
 //Send HTML response to client
 function send_response(response, data) {
-	response.send(`<h1>Hello k8s</h1> 
+	response.send(`<h1>Hello Welt was geht ab</h1> 
 			<ul>
 				<li>Host ${os.hostname()}</li>
 				<li>Date: ${new Date()}</li>
