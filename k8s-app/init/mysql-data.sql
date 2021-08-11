@@ -24,6 +24,7 @@ CREATE TABLE IF NOT EXISTS Chicago_Crimes_test_sample (
 );
 
 
+
 INSERT INTO Chicago_Crimes_sample (ID, Case Number, Date, Block, IUCR, Primary Type, Description, Location Description, Arrest, Domestic, Beat, District, Ward, Community Area, FBI Code, X Coordinate, Y Coordinate, Year, Updated On, Latitude, Longitude, Location)
 
 VALUES (4786321, 'HM399414', '01/01/2004 12:01:00 AM', '082XX S COLES AVE', 0840, 'THEFT', 'FINANCIAL ID THEFT: OVER $300', 'RESIDENCE', 'False', 'False', 424, '4.0', '7.0', '46.0', '06', NULL, NULL, 2004.0, '08/17/2015 03:03:40 PM', NULL, NULL, NULL);
