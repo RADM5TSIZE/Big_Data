@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-super-app-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: myexpressapp
+  template:
+    metadata:
+      labels:
+        app: myexpressapp
+    spec:
+      containers:
+        - name: myexpressapp
+          image: my-super-web-app
+          imagePullPolicy: Never # Uses Minikubes Docker image repo (minikube only)
+          ports:
+            - containerPort: 8080

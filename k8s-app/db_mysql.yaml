@@ -16,18 +16,7 @@ spec:
     metadata:
       labels:
         app: my-mysql
-    spec:
-      # Use the init container to download data to the location where the mysql container expects it
-      initContainers:
-        - name: init-container-data-downloader
-          image: curlimages/curl
-          args:
-            - "-o"
-            - "/tmp/data/init.sql" # we are saving downloaded file as init.sql in /tmp/data directory
-            - "https://farberg.de/talks/big-data/code/docker-compose/mysql-data.sql"
-          volumeMounts:
-            - name: data-volume
-              mountPath: /tmp/data
+    
       # The actual mysql database
       containers:
         - name: my-mysql
