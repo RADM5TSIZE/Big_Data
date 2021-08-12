@@ -25,7 +25,7 @@ conn = pymysql.connect(
 
 """
 #geht aktuell nicht, bekomme es nicht hin
-engine = create_engine('mysql://user:user@localhost:8080/student')
+engine = create_engine('mysql://user:psw@localhost:8080/crimes')
 print("test1")
 crimes = pd.read_sql_table('Chicago_Crimes_sample', con=engine, chunksize=500)
 engine.dispose()
