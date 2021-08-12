@@ -1,0 +1,1 @@
+#lukk mach hier ne req...und denk dran bei docker ausführen 

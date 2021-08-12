@@ -7,3 +7,5 @@ COPY server.js /app/
 
 
 CMD node /app/server.js 
+
+#hier dan die webapp starten mittels py (an req denken) 
