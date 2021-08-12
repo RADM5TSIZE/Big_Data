@@ -2,22 +2,12 @@ from flask import Flask, render_template, request
 
 #imports
 import pandas as pd
-import numpy as np
-import matplotlib as mpl
 import matplotlib.pyplot as plt
-import seaborn as sns
-import io
-import random
 from flask import Response
 from matplotlib.figure import Figure
-
 import io
-import base64
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
-import matplotlib.pyplot as plt
-import seaborn as sns
 #currently not necessary
-import datetime
 crimes01to04 = pd.read_csv('WebApp/tempdatafolder/Chicago_Crimes_2001_to_2004.csv', error_bad_lines=False)
 crimes05to07 = pd.read_csv('WebApp/tempdatafolder/Chicago_Crimes_2001_to_2004.csv', error_bad_lines=False)
 crimes08to11 = pd.read_csv('WebApp/tempdatafolder/Chicago_Crimes_2001_to_2004.csv', error_bad_lines=False)
