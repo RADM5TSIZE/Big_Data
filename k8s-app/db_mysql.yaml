@@ -40,6 +40,9 @@ spec:
           volumeMounts:
             - name: data-volume
               mountPath: /docker-entrypoint-initdb.d/
+
+
+
           ports:
             - containerPort: 3306
             - containerPort: 33060
