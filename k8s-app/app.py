@@ -13,24 +13,16 @@ from sqlalchemy import create_engine
 import pymysql
 pymysql.install_as_MySQLdb()
 
-"""
-conn = pymysql.connect(
-    host = 'localhost',
-    port = 8080,
-    user = 'user',
-    passwd = 'user',
-    db = 'student'
-)
-"""
 
-"""
+
 #geht aktuell nicht, bekomme es nicht hin
-engine = create_engine('mysql://user:psw@localhost:8080/crimes')
+print("test0")
+engine = create_engine('mysql+pymysql://root:root@localhost:3306/crimes', connect_args={'connect_timeout':120}, pool_pre_ping=True)
 print("test1")
-crimes = pd.read_sql_table('Chicago_Crimes_sample', con=engine, chunksize=500)
+crimes = pd.read_sql('Chicago_Crimes_sample', con=engine.connect())
 engine.dispose()
 print("test2")
-"""
+
 
 
 """
@@ -44,11 +36,11 @@ crimes12to17 = pd.read_csv('WebApp/tempdatafolder/Chicago_Crimes_2001_to_2004.cs
 crimes_list = [crimes01to04, crimes05to07, crimes08to11, crimes12to17]
 crimes = pd.concat(crimes_list)
 #data preparation
-
-crimes['Year'] = crimes['Year'].astype('int')
+"""
+crimes['YEAR'] = crimes['YEAR'].astype('int')
 #in testing we found that there is a faulty line, where the year is specified as 41, this whole line gets deleted,
 # because the probability of it beiing a faulty row in general is high and we have enough other entrys
-crimes = crimes[crimes.Year != 41]
+crimes = crimes[crimes.YEAR != 41]
 #currently not needed
 #crimes['mmddyyyy'] = crimes['Date'].astype(str).str[0:10].astype(str)
 #crimes['mmddyyyy'].apply(lambda x: datetime.datetime.strptime(x, '%m/%d/%Y'))
@@ -56,7 +48,7 @@ crimes = crimes[crimes.Year != 41]
 #data preparation
 #the month-information gets read from the Date-column
 crimes['month'] = crimes['Date'].astype(str).str[0:2].astype(str)
-"""
+
 
 app = Flask(__name__)
 
@@ -64,7 +56,7 @@ app = Flask(__name__)
 @app.route("/")
 def Index():
     return render_template("index.html")
-"""
+    
 #subpages
 @app.route("/monthly")
 def monthlypage():
@@ -113,7 +105,7 @@ def plotyear_png():
 
 def create_figureYear():
     fig, ax = plt.subplots()
-    ax = crimes['Year'].value_counts().sort_index().plot(kind="bar")
+    ax = crimes['YEAR'].value_counts().sort_index().plot(kind="bar")
     return fig
 
 @app.route('/arrests.png')
@@ -149,7 +141,10 @@ def crimetypes_png():
 
 def create_figureCrimeTypes():
     fig, ax = plt.subplots()
-    ax = crimes['Primary Type'].value_counts()[crimes['Primary Type'].value_counts()> crimes['Primary Type'].value_counts().quantile(0.50)].plot(kind="bar")
+    """
+    ax = crimes['PrimaryType'].value_counts()[crimes['PrimaryType'].value_counts()> crimes['PrimaryType'].value_counts().quantile(0.50)].plot(kind="bar")
+    """
+    ax = crimes['PrimaryType'].value_counts().plot(kind="bar")
     return fig
 
 @app.route('/districts.png')
@@ -165,7 +160,7 @@ def create_figureDistricts():
     return fig
 
 
-"""
+
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
