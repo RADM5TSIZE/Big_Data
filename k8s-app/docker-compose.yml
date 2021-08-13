@@ -19,11 +19,11 @@ services:
         expose:
             - '3306' 
 
-    adminer:
+    adminer: #admin in Interface
         image: adminer
         restart: always
         ports: 
             - 8080:8080
  
 # zum ausführen            
-#.\k8s-app> docker-compose up  
+#.\k8s-app> docker-compose up

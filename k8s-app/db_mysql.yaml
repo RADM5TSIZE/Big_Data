@@ -1,10 +1,9 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-
-  name: database
+  name: mysql-deployment
   labels:
-    app: my-database
+    app: my-mysql-deployment
 spec:
   # A single mysql instance
   replicas: 1
@@ -23,7 +22,7 @@ spec:
           args:
             - "-o"
             - "/tmp/data/init.sql" # we are saving downloaded file as init.sql in /tmp/data directory
-            - "https://pastebin.com/dl/bNQMsab9"
+            - "https://farberg.de/talks/big-data/code/docker-compose/mysql-data.sql"
           volumeMounts:
             - name: data-volume
               mountPath: /tmp/data
@@ -31,36 +30,55 @@ spec:
       containers:
         - name: my-mysql
           image: mysql
-
+          # Set required environment variables to initialize the container
           env:
             - name: MYSQL_ROOT_PASSWORD
               value: "mysecretpw"
             - name: MYSQL_DATABASE
               value: "sportsdb"
-
+          # Mount the volume that has been populated by the init container
           volumeMounts:
             - name: data-volume
               mountPath: /docker-entrypoint-initdb.d/
-
-
-
           ports:
             - containerPort: 3306
             - containerPort: 33060
           livenessProbe:
             tcpSocket:
               port: 33060
-            initialDelaySeconds: 300 # 
+            initialDelaySeconds: 300 # to avoid restarts while initializing the database
             periodSeconds: 10
           readinessProbe:
             tcpSocket:
               port: 33060
             initialDelaySeconds: 5
             periodSeconds: 10
-
+      #          resources:
+      #            requests:
+      #              cpu: 1
+      #              memory: "200M"
+      #            limits:
+      #              cpu: 1
+      #              memory: "200M"
+      # Define an empty volume to be shared by the init and mysql container
       volumes:
         - name: data-volume
           emptyDir: {}
 
-
-
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-app-mysql-service
+spec:
+  selector:
+    app: my-mysql
+  ports:
+    - name: mysql-prot
+      protocol: TCP
+      port: 3306
+      targetPort: 3306
+    - name: mysql-xproto
+      protocol: TCP
+      port: 33060
+      targetPort: 33060
