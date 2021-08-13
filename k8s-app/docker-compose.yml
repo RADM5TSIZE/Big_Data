@@ -19,7 +19,7 @@ services:
         expose:
             - '3306' 
 
-    adminer:
+    adminer: #admin in Interface
         image: adminer
         restart: always
         ports: 
