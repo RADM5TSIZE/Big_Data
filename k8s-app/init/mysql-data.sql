@@ -1,4 +1,4 @@
-CREATE TABLE Chicago_Crimes_sample (
+CREATE TABLE 'Chicago_Crimes_sample' (
     id INT,
     CaseNumber VARCHAR(8),
     Date VARCHAR(29),
