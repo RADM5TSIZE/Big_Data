@@ -18,6 +18,8 @@ Der Data Lake ist über ein HDFS realisiert.
 ### Big Data Messaging
 - [ ] Infos Miguel
 
+Weitere Information sind in der Dokumentation zu finden. 
+
 # Daten
 Die originalen Daten zu diesem Projekt sind unter folgendem [Link](https://www.kaggle.com/currie32/crimes-in-chicago) zu finden.
 
