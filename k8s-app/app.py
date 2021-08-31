@@ -17,7 +17,9 @@ pymysql.install_as_MySQLdb()
 
 #geht aktuell nicht, bekomme es nicht hin
 print("test0")
-engine = create_engine('mysql+pymysql://root:root@localhost:3306/crimes', connect_args={'connect_timeout':120}, pool_pre_ping=True)
+pymysql.connections.DEBUG = True
+print('test0,1')
+engine = create_engine('mysql+pymysql://root:root@my-app-mysql-service:3306/crimes', connect_args={'connect_timeout':120}, pool_pre_ping=True)
 print("test1")
 crimes = pd.read_sql('Chicago_Crimes_sample', con=engine.connect())
 engine.dispose()
@@ -163,5 +165,5 @@ def create_figureDistricts():
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000)
+    app.run(host='0.0.0.0', port=5000)
 

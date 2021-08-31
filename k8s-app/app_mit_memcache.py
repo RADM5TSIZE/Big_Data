@@ -9,17 +9,20 @@ import io
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 import sqlalchemy
 from sqlalchemy import create_engine
+import socket
+import pickle
 
 import pymysql
 pymysql.install_as_MySQLdb()
 
 ##Memcached
 from pymemcache.client import base
+from pymemcache import serde
 
 
 #geht aktuell nicht, bekomme es nicht hin
 print("test0")
-engine = create_engine('mysql+pymysql://root:root@localhost:3306/crimes', connect_args={'connect_timeout':120}, pool_pre_ping=True)
+engine = create_engine('mysql+pymysql://root:root@my-app-mysql-service:3306/crimes', connect_args={'connect_timeout':120}, pool_pre_ping=True)		
 print("test1")
 crimes = pd.read_sql('Chicago_Crimes_sample', con=engine.connect())
 engine.dispose()
@@ -52,7 +55,7 @@ crimes = crimes[crimes.YEAR != 41]
 crimes['month'] = crimes['Date'].astype(str).str[0:2].astype(str)
 
 ##Memcached
-client = base.Client(('localhost', 11211))
+client = base.Client((str(socket.gethostbyname('my-memcached-service')), 11211), serde=serde.pickle_serde)
 
 app = Flask(__name__)
 
@@ -90,6 +93,9 @@ def districtspage():
 def create_figureMonth():
     fig, ax = plt.subplots()
     ax = crimes['month'].value_counts().sort_index().plot(kind="bar")
+    
+#    serialized_fig = pickle.dumps(fig)
+
     return fig
 
 def create_figureYear():
@@ -130,7 +136,8 @@ result_figureDistricts = client.get('figureDistricts_key')
 
 if result_figureMonth is None:
     result_figureMonth = create_figureMonth()
-    client.set('figureMonth_key', result_figureMonth)
+    print(result_figureMonth)
+    client.set('figureMonth_key', result_figureMonth)	
 
 if result_figureYear is None:
     result_figureYear = create_figureYear()

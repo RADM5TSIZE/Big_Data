@@ -1,0 +1,29 @@
+
+version: '3.6'
+
+services: 
+    db:
+        image: mysql
+        command: --default-authentication-plugin=mysql_native_password
+        restart: always
+        environment: 
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_DATABASE: crimes
+            MYSQL_USER: user
+            MYSQL_PASSWORD: psw
+    
+        volumes: 
+            - ./init:/docker-entrypoint-initdb.d
+        ports:
+            - '3306:3306'
+        expose:
+            - '3306' 
+
+    adminer: #admin in Interface
+        image: adminer
+        restart: always
+        ports: 
+            - 8080:8080
+ 
+# zum ausführen            
+#.\k8s-app> docker-compose up
