@@ -5,3 +5,6 @@ Unser Big Data Use Case stellt über eine Flask Web Anwendung, verschiedene Info
 
 # Architektur
 ![alt text](./bigdata_platform.png)
+
+# Daten
+Die originalen Daten zu diesem Projekt sind unter folgendem [Link(https://www.kaggle.com/currie32/crimes-in-chicago) zu finden.
