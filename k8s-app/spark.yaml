@@ -1,0 +1,22 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bigdata-spark
+spec:
+  selector:
+    matchLabels:
+      app: bigdata-spark
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: bigdata-spark
+    spec:
+      containers:
+      - name: bigdata-spark
+        image: bigdata-spark:latest
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 5000
+

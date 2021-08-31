@@ -28,7 +28,7 @@ spec:
     spec:
       containers:
       - name: bigdata-webapp
-        image: bigdata-webapp:latest
-        imagePullPolicy: Never
+        image: bigdata-webapp #:latest
+        #imagePullPolicy: never
         ports:
         - containerPort: 5000
