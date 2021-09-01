@@ -7,17 +7,20 @@ Unser Big Data Use Case stellt über eine Flask Web-Anwendung verschiedene Infor
 ## Daten
 Die originalen Daten zu diesem Projekt sind unter folgendem [Link](https://www.kaggle.com/currie32/crimes-in-chicago) zu finden.
 
-## Erforderliche Software:
-1. Text (Version)
-2. Text (Version)
-3. Text (Version)
-4. Text (Version)
-5. Text (Version)
+## Erforderliche Software
+1. spark v
+2. minikube v mit Kubernetes v
+3. kubectl v
+4. kafka v
+5. docker v
+6. mysql v
+7. flask v
 
 ## Leitfaden
 Schritt für Schritt um das Ding zu starten
 
 ## Screencast
+[Link]()
 
 # Dokumentation
 
@@ -25,7 +28,7 @@ Schritt für Schritt um das Ding zu starten
 Im Rahmen der Gruppenarbeit soll eine Anwendung erarbeitet werden, welche unter Berücksichtigung der in der Vorlesung vorgestellten Komponenten konzipiert und aufgebaut wird. Die Anwendungsidee und der Datensatz werden von der Gruppe selbst ausgewählt.
 
 ## Idee
-Die Anwendungsidee besteht in der Verarbeitung und Visualisierung von polizeilich erfassten Verbrechen in Chicago (USA). Der Datensatz umfasst alle von dem Chicago Police Department erfassten Verbrechen im Zeitraum von 2001 bis 2017 und wurde dem System CLEAR (Citizen Law Enforcement Analysis and Reporting) entnommen. Für die Visualisierung werden ausgewählte Merkmale in Zusammenhang gebracht und graphisch in geeigneten Plots in der Webanwendung dargestellt.
+Die Anwendungsidee besteht in der Verarbeitung und Visualisierung von polizeilich erfassten Verbrechen in Chicago (USA). Der Datensatz umfasst alle von dem Chicago Police Department erfassten Verbrechen im Zeitraum von 2001 bis 2017 und wurde dem System CLEAR (Citizen Law Enforcement Analysis and Reporting) entnommen. Für die Visualisierung werden ausgewählte Merkmale in Zusammenhang gebracht und graphisch in geeigneten Plots in einer Webanwendung dargestellt.
 
 ## Entwurf
 Bild einmal beschreiben (allgemein)
