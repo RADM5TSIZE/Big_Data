@@ -8,13 +8,13 @@ Unser Big Data Use Case stellt über eine Flask Web-Anwendung verschiedene Infor
 Die originalen Daten zu diesem Projekt sind unter folgendem [Link](https://www.kaggle.com/currie32/crimes-in-chicago) zu finden.
 
 ## Erforderliche Software
-1. spark v
+1. spark v3.0.0
 2. minikube v1.22.0 mit Kubernetes v1.21.2
-3. kubectl v
-4. kafka v
+3. kubectl v1.21.4
+4. kafka v0.25.0
 5. docker v20.10.8
-6. mysql v
-7. flask v
+6. mysql v1.22.1
+7. flask v2.0.1
 
 ## Leitfaden
 Schritt für Schritt um das Ding zu starten
