@@ -92,15 +92,18 @@ def districtspage():
 #functions to create plots
 def create_figureMonth():
     fig, ax = plt.subplots()
-    ax = crimes['month'].value_counts().sort_index().plot(kind="bar")
-    
-#    serialized_fig = pickle.dumps(fig)
+    ax = crimes['month'].value_counts().sort_index().plot(kind="bar")  
 
     return fig
 
 def create_figureYear():
     fig, ax = plt.subplots()
-    ax = crimes['YEAR'].value_counts().sort_index().plot(kind="bar")
+    #ax = crimes['YEAR'].value_counts().sort_index().plot(kind="bar")
+    crime_year = pd.read_sql('Crime_Year', con=engine.connect())
+    engine.dispose()
+    
+    crime_year['YEAR'].value_counts().sort_index().plot(kind="bar")
+    
     return fig
 
 def create_figureArrests():
