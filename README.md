@@ -9,10 +9,10 @@ Die originalen Daten zu diesem Projekt sind unter folgendem [Link](https://www.k
 
 ## Erforderliche Software
 1. spark v
-2. minikube v mit Kubernetes v
+2. minikube v1.22.0 mit Kubernetes v1.21.2
 3. kubectl v
 4. kafka v
-5. docker v
+5. docker v20.10.8
 6. mysql v
 7. flask v
 
