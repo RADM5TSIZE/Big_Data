@@ -31,9 +31,7 @@ Im Rahmen der Gruppenarbeit soll eine Anwendung erarbeitet werden, welche unter 
 Die Anwendungsidee besteht in der Verarbeitung und Visualisierung von polizeilich erfassten Verbrechen in Chicago (USA). Der Datensatz umfasst alle von dem Chicago Police Department erfassten Verbrechen im Zeitraum von 2001 bis 2017 und wurde dem System CLEAR (Citizen Law Enforcement Analysis and Reporting) entnommen. Für die Visualisierung werden ausgewählte Merkmale in Zusammenhang gebracht und graphisch in geeigneten Plots in einer Webanwendung dargestellt.
 
 ## Entwurf
-Bild einmal beschreiben (allgemein)
-<br/>
-<br/>
+Zu Beginn liegen die Rohdaten im Data Lake. Über ein Big Data Messaging Dienst werden diese Daten an eine Big Data Processing Applikation gestreamt. Diese Applikation stehlt Berechnungen auf diesen Daten an und speichert diese in der Datenbank. Wenn Nutzer dann auf die Webapp zugreifen möchte wird dieser über einen Load Balancer geschickt (zur Last verteilung. Danach überprüft die Webapp zuerst ob es die benötigten Daten im Cache vorliegen hat. Ist dies nicht der Fall greift die WEbapp auf die DAtenbank zu und lädt die Daten und speichert sie ebenfalls im Cache.
 ![alt text](/bigdata_platform.png)
 
 ## Architektur
