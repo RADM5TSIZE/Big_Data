@@ -7,7 +7,7 @@ Unser Big Data Use Case stellt über eine Flask Web-Anwendung verschiedene Infor
 ## Daten
 Die originalen Daten zu diesem Projekt sind unter folgendem [Link](https://www.kaggle.com/currie32/crimes-in-chicago) zu finden.
 
-## Erforderliche Installationen:
+## Erforderliche Software:
 1. Text (Version)
 2. Text (Version)
 3. Text (Version)
@@ -16,4 +16,6 @@ Die originalen Daten zu diesem Projekt sind unter folgendem [Link](https://www.k
 
 ## Leitfaden
 Schritt für Schritt um das Ding zu starten
+
+## Screencast
 
