@@ -1,5 +1,12 @@
+# Aufgabenstellung
+### Micha
+
+# Idee
+### Micha
+
 # Architektur
 ![alt text](/bigdata_platform.png)
+Bild einmal beschreiben (allgemein)
 
 # Komponenten
 ### Webapp
@@ -13,4 +20,5 @@ Der Data Lake ist über ein HDFS realisiert.
 ### Big Data Messaging
 - [ ] Infos Miguel
 
-Weitere Information sind in der Dokumentation zu finden.
+# Funktion
+wie spielt das zusammen...wer gibt was an wen weiter etc
