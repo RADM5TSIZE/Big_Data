@@ -1,5 +1,5 @@
 # Architektur
-![alt text](./bigdata_platform.png)
+![alt text](/bigdata_platform.png)
 
 # Komponenten
 ### Webapp
