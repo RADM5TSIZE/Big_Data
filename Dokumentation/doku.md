@@ -6,13 +6,13 @@ Im Rahmen der Gruppenarbeit soll eine Anwendung erarbeitet werden, welche unter 
 ## Idee
 Die Anwendungsidee besteht in der Verarbeitung und Visualisierung von polizeilich erfassten Verbrechen in Chicago (USA). Der Datensatz umfasst alle von dem Chicago Police Department erfassten Verbrechen im Zeitraum von 2001 bis 2017 und wurde dem System CLEAR (Citizen Law Enforcement Analysis and Reporting) entnommen. Für die Visualisierung werden ausgewählte Merkmale in Zusammenhang gebracht und graphisch in geeigneten Plots in der Webanwendung dargestellt.
 
-## Architektur
+## Entwurf
 Bild einmal beschreiben (allgemein)
 <br/>
 <br/>
 ![alt text](/bigdata_platform.png)
 
-## Komponenten
+## Architektur
 ### Webapp
 Die Webapp ist eine Flask und stellt auf verschiedenen Seiten, erreichbar über die Menübar am oberen Bildschirmrand, Information in Form von Diagrammen dar. 
 ### Cache
