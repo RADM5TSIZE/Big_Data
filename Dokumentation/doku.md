@@ -1,14 +1,17 @@
-# Aufgabenstellung
+# Dokumentation
+Vorliegende Doku dient bla bla
+
+## Aufgabenstellung
 Micha
 
-# Idee
+## Idee
 Micha
 
-# Architektur
+## Architektur
 ![alt text](/bigdata_platform.png)
 <br/>Bild einmal beschreiben (allgemein)
 
-# Komponenten
+## Komponenten
 ### Webapp
 Die Webapp ist eine Flask und stellt auf verschiedenen Seiten, erreichbar über die Menübar am oberen Bildschirmrand, Information in Form von Diagrammen dar. 
 ### Cache
@@ -20,5 +23,5 @@ Der Data Lake ist über ein HDFS realisiert.
 ### Big Data Messaging
 - [ ] Infos Miguel
 
-# Funktion
+## Funktion
 wie spielt das zusammen...wer gibt was an wen weiter etc
