@@ -45,6 +45,5 @@ Der Data Lake ist über ein HDFS realisiert.
 ### Big Data Messaging
 - [ ] Infos Miguel
 
-## Funktion
-wie spielt das zusammen...wer gibt was an wen weiter etc
+
 
