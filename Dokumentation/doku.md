@@ -1,12 +1,12 @@
 # Aufgabenstellung
-### Micha
+Micha
 
 # Idee
-### Micha
+Micha
 
 # Architektur
 ![alt text](/bigdata_platform.png)
-Bild einmal beschreiben (allgemein)
+<br/>Bild einmal beschreiben (allgemein)
 
 # Komponenten
 ### Webapp
