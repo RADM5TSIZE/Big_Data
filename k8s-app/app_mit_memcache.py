@@ -10,7 +10,6 @@ from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 import sqlalchemy
 from sqlalchemy import create_engine
 import socket
-import pickle
 
 import pymysql
 pymysql.install_as_MySQLdb()
@@ -20,13 +19,12 @@ from pymemcache.client import base
 from pymemcache import serde
 
 
-#geht aktuell nicht, bekomme es nicht hin
-print("test0")
+#Setting up connection to the database
 engine = create_engine('mysql+pymysql://root:root@my-app-mysql-service:3306/crimes', connect_args={'connect_timeout':120}, pool_pre_ping=True)		
-print("test1")
+#reading the database into a dataframe for further processing
 crimes = pd.read_sql('Chicago_Crimes_sample', con=engine.connect())
 engine.dispose()
-print("test2")
+
 
 
 
@@ -57,45 +55,48 @@ crimes['month'] = crimes['Date'].astype(str).str[0:2].astype(str)
 #Setting up the connection to the Memcached-service
 client = base.Client((str(socket.gethostbyname('my-memcached-service')), 11211), serde=serde.pickle_serde)
 
+#initializing flask app
 app = Flask(__name__)
 
-#Indexpage
+#Routing
+
+#1) Index
 @app.route("/")
 def Index():
-    return render_template("index.html")
-    
-#subpages
+    return render_template("index.html")  
+#2) Monthly Plot
 @app.route("/monthly")
 def monthlypage():
     return render_template("monthly.html")
-
+#3) Yearly Plot
 @app.route("/yearly")
 def yearlypage():
     return render_template("yearly.html")
-
+#4) Arrests Plot
 @app.route("/arrests")
 def arrestspage():
     return render_template("arrests.html")
-
+#5) Domestic Plot
 @app.route("/domestic")
 def domesticpage():
     return render_template("domestic.html")
-
+#6) Crime Types Plot
 @app.route("/crimetypes")
 def crimetypespage():
     return render_template("crimetypes.html")
-
+#7) Districts Plot
 @app.route("/districts")
 def districtspage():
     return render_template("districts.html")
 
-#functions to create plots
+#Creating the plots as figures via functions
+#1) figure for the monthly plot
 def create_figureMonth():
     fig, ax = plt.subplots()
     ax = crimes['month'].value_counts().sort_index().plot(kind="bar")  
 
     return fig
-
+#2) figure for the yearly plot
 def create_figureYear():
     fig, ax = plt.subplots()
     #ax = crimes['YEAR'].value_counts().sort_index().plot(kind="bar")
@@ -105,17 +106,17 @@ def create_figureYear():
     crime_year['YEAR'].value_counts().sort_index().plot(kind="bar")
     
     return fig
-
+#3) figure for the arrests plot
 def create_figureArrests():
     fig, ax = plt.subplots()
     ax = crimes['Arrest'].value_counts().sort_index().plot(kind="pie")
     return fig
-
+#4) figure for the domestic plot
 def create_figureDomestic():
     fig, ax = plt.subplots()
     ax = crimes['Domestic'].value_counts().sort_index().plot(kind="pie")
     return fig
-
+#5) figure for the crime types plot
 def create_figureCrimeTypes():
     fig, ax = plt.subplots()
     """
@@ -123,7 +124,7 @@ def create_figureCrimeTypes():
     """
     ax = crimes['PrimaryType'].value_counts().plot(kind="bar")
     return fig
-
+#6) figure for the districts plot
 def create_figureDistricts():
     fig, ax = plt.subplots()
     ax = crimes['District'].value_counts().sort_index().plot(kind="bar")
@@ -163,42 +164,43 @@ if result_figureDistricts is None:
     result_figureDistricts = create_figureDistricts()
     client.set('figureDistricts_key', result_figureDistricts)
 
-#plots
+#saving plots as images to address them on the subpages
+#1) monthly plot
 @app.route('/plotmonthly.png')
 def plotmonth_png():
     fig = result_figureMonth
     output = io.BytesIO()
     FigureCanvas(fig).print_png(output)
     return Response(output.getvalue(), mimetype='image/png')
-
+#2) yearly plot
 @app.route('/plotyearly.png')
 def plotyear_png():
     fig = result_figureYear
     output = io.BytesIO()
     FigureCanvas(fig).print_png(output)
     return Response(output.getvalue(), mimetype='image/png')
-
+#3) arrests plot
 @app.route('/arrests.png')
 def arrests_png():
     fig = result_figureArrests
     output = io.BytesIO()
     FigureCanvas(fig).print_png(output)
     return Response(output.getvalue(), mimetype='image/png')
-
+#4) domestic plot
 @app.route('/domestic.png')
 def domestic_png():
     fig = result_figureDomestic
     output = io.BytesIO()
     FigureCanvas(fig).print_png(output)
     return Response(output.getvalue(), mimetype='image/png')
-
+#5) crime types plot
 @app.route('/crimetypes.png')
 def crimetypes_png():
     fig = result_figureCrimeTypes
     output = io.BytesIO()
     FigureCanvas(fig).print_png(output)
     return Response(output.getvalue(), mimetype='image/png')
-
+#6) districts plot
 @app.route('/districts.png')
 def districts_png():
     fig = result_figureDistricts
@@ -210,7 +212,7 @@ def districts_png():
 
 
 
-
+#setting up host and port
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
 
