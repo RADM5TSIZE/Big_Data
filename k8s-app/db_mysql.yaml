@@ -5,6 +5,8 @@ metadata:
 data:
   mysql-init.sql: |
     DROP TABLE IF EXISTS `Chicago_Crimes_sample`;
+
+    DROP TABLE IF EXISTS `Chicago_Crimes_sample`;
   
     DROP TABLE IF EXISTS `Crime_Year`;
     

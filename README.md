@@ -17,16 +17,7 @@ Die originalen Daten zu diesem Projekt sind unter folgendem [Link](https://www.k
 7. flask v2.0.1
 
 ## Leitfaden
-Schritt für Schritt um das Ding zu starten
-
-
-installiere skaffold
-
-isntalliere kubernetes minikube 
-
-Install helm, installiere kubernetes minikube, installiere skaffold... wenn es noch nicht installiert ist
-
-start minikube
+1. Terminal öffnen und 
 
 minikube addons enable ingress (wenn es nicht funktioniert, minikube löschen und noch mal neu mit sudo minikube start --addons=ingress --driver=none --memory 4096 --cpus 2 installieren)
 
