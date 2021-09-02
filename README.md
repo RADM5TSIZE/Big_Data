@@ -88,6 +88,9 @@ Zu Beginn liegen die Rohdaten im Data Lake. Über ein Big Data Messaging Dienst 
 # Architektur
 ## Webapp
 Die Webapp ist eine Flask und stellt auf verschiedenen Seiten, erreichbar über die Menübar am oberen Bildschirmrand, Information in Form von Diagrammen dar. 
+Die in der Webapp dargestellten Diagramme werden mit Hilfe von Matplotlib erstellt. Für jedes Diagramm wird ein Bild erzeugt, welches dann auf den Unterseiten zur Darstellung referenziert wird.
+Daten für die Diagramme werden mit Hilfe einer Anbindung an die Datenbank eingelesen. Hierfür wird mit MySQL und PyMySQL eine Verbindung zur Datenbank hergestellt.
+Erreichbar ist die Webapp über den Port 5000.
 ## Cache
 Der Cache ist über Memcached realisiert und speichert die Daten nach dem ersten Zugriff für die nächsten 30 Sekunden. Nach dieser Zeit werden die Daten wieder neu geladen. 
 Innerhalb der Webapp wird das Python-Modul pymemcache genutzt. Dort wird gecheckt, ob ein Wert im Cache vorhanden ist. Falls der Wert vorhanden ist, wird er sofort aus dem Cache gezogen, falls nicht, wird die Berechnungs-Funktion aufgerufen, der Wert berechnet und aufgerufen, und außerdem im Cache gespeichert.
