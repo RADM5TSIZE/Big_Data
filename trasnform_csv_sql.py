@@ -1,3 +1,5 @@
+# This file converts the downloaded file to SQL commands that can be used to initialize the database
+
 import pandas as pd
 from sqlalchemy import create_engine
 
