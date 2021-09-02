@@ -15,7 +15,7 @@ import pickle
 import pymysql
 pymysql.install_as_MySQLdb()
 
-##Memcached
+#Memcached
 from pymemcache.client import base
 from pymemcache import serde
 
@@ -54,7 +54,7 @@ crimes = crimes[crimes.YEAR != 41]
 #the month-information gets read from the Date-column
 crimes['month'] = crimes['Date'].astype(str).str[0:2].astype(str)
 
-##Memcached
+#Setting up the connection to the Memcached-service
 client = base.Client((str(socket.gethostbyname('my-memcached-service')), 11211), serde=serde.pickle_serde)
 
 app = Flask(__name__)
@@ -129,7 +129,7 @@ def create_figureDistricts():
     ax = crimes['District'].value_counts().sort_index().plot(kind="bar")
     return fig
 
-##Memcached
+#get the values that are stored in Memcached
 result_figureMonth = client.get('figureMonth_key')
 result_figureYear = client.get('figureYear_key')
 result_figureArrests = client.get('figureArrests_key')
@@ -137,6 +137,7 @@ result_figureDomestic = client.get('figureDomestic_key')
 result_figureCrimeTypes = client.get('figureCrimeTypes_key')
 result_figureDistricts = client.get('figureDistricts_key')
 
+#if no value is stored in Memcached, run the function to calculate value and then store it in the cache
 if result_figureMonth is None:
     result_figureMonth = create_figureMonth()
     print(result_figureMonth)

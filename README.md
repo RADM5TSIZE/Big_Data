@@ -17,7 +17,13 @@ Die originalen Daten zu diesem Projekt sind unter folgendem [Link](https://www.k
 7. flask v2.0.1
 
 ## Leitfaden
-Schritt für Schritt um das Ding zu starten
+1. Terminal öffnen und 
+
+minikube addons enable ingress (wenn es nicht funktioniert, minikube löschen und noch mal neu mit sudo minikube start --addons=ingress --driver=none --memory 4096 --cpus 2 installieren)
+
+eval $(minikube docker-env)
+
+skaffold dev
 
 ## Screencast
 [Link]()
