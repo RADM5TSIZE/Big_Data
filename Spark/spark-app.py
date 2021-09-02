@@ -37,7 +37,20 @@ crimeSchema = StructType() \
     .add("primarytype", StringType()) \
     .add("description", StringType()) \
     .add("locationdescription", StringType()) \
-    .add("arrest", BooleanType())
+    .add("arrest", BooleanType()) \
+    .add("domestic", StringType()) \
+    .add("beat", StringType()) \
+    .add("district", StringType()) \
+    .add("ward", StringType()) \
+    .add("communityarea", StringType()) \
+    .add("fbicode", IntegerType()) \
+    .add("xcoordinate", IntegerType()) \
+    .add("ycoordinate", IntegerType()) \
+    .add("year", IntegerType()) \
+    .add("updatedon", StringType()) \
+    .add("latitude", IntegerType()) \
+    .add("longitude", IntegerType()) \
+    .add("location", StringType())
 
 #Parse JSON messages 
 crimeMessages = kafkaMessages.select(
@@ -59,6 +72,19 @@ crimeMessages = kafkaMessages.select(
     .withColumnRenamed('json.dscription', 'description') \
     .withColumnRenamed('json.locationdescription', 'locationdescription') \
     .withColumnRenamed('json.arrest', 'arrest') \
+    .withColumnRenamed('json.domestic', 'domestic') \
+    .withColumnRenamed('json.beat', 'beat') \
+    .withColumnRenamed('json.district', 'district') \
+    .withColumnRenamed('json.ward', 'ward') \
+    .withColumnRenamed('json.communityarea', 'communityarea') \
+    .withColumnRenamed('json.fbicode', 'fbicode') \
+    .withColumnRenamed('json.xcoordinate', 'xcoordinate') \
+    .withColumnRenamed('json.ycoordinate', 'ycoordinate') \
+    .withColumnRenamed('json.year', 'year') \
+    .withColumnRenamed('json.updatedon', 'updatedon') \
+    .withColumnRenamed('json.latitude', 'latitude') \
+    .withColumnRenamed('json.longitude', 'longitude') \
+    .withColumnRenamed('json.location', 'location') \
     #.withWatermark("parsed_timestamp", windowDuration)
 
 """
