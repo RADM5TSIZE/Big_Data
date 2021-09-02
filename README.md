@@ -27,7 +27,7 @@ Die originalen Daten zu diesem Projekt sind unter folgendem [Link](https://www.k
 
 # Leitfaden
 
-Folgenden Befehle sollten unter Berücksichtigung der jeweiligen Ordnerstruktur ausgeführt werden.
+Folgenden Befehle sollten unter Berücksichtigung der jeweiligen Ordnerstruktur ausgeführt werden. (gastbetriebssystem ist Linux)
 
 ### 1. Installiere Minikube
 
@@ -62,7 +62,7 @@ eval $(minikube docker-env)
 ```
 
 
-### 5. Starte die Cluster 
+### 5. Starten der Applikation 
 
 Mit den zuvor installierten Tools lässt nun die Applikation mit folgendem Befehl starten:
 
@@ -71,12 +71,8 @@ Mit den zuvor installierten Tools lässt nun die Applikation mit folgendem Befeh
 skaffold dev
 ```
 
+Unter http://localhost:5000/ kann auf die **Webapp** zugegriffen werden. 
 
-#minikube start --addons=ingress --driver=none --memory 4096 --cpus 2 
-
-
-# Screencast
-[Link]()
 
 # Dokumentation
 
@@ -102,11 +98,18 @@ Erreichbar ist die Webapp über den Port 5000.
 Der Cache ist über Memcached realisiert und speichert die Daten nach dem ersten Zugriff für die nächsten 30 Sekunden. Nach dieser Zeit werden die Daten wieder neu geladen. 
 Innerhalb der Webapp wird das Python-Modul pymemcache genutzt. Dort wird gecheckt, ob ein Wert im Cache vorhanden ist. Falls der Wert vorhanden ist, wird er sofort aus dem Cache gezogen, falls nicht, wird die Berechnungs-Funktion aufgerufen, der Wert berechnet und aufgerufen, und außerdem im Cache gespeichert.
 ## Datenbank
-Die Datenbank ist realsiert mit einer MySQL Datenbank und läuft in einem eigenen Container und ist über den mysql-service und dem Port 3306 erreichbar. 
+
+Die Datenbank ist mittels eines kubernetes mySql-immages aufgabaut. Diese wird in einem Docker-Container mittels den relevalten Daten erstellt und darufhin hochgefahren. Die Datenbank trägt den namen "crimes" (psw:root), sie ist über den Port 3306 ereichbar.
+
 ## Data Lake
 Der Data Lake ist über ein HDFS realisiert. 
 ## Big Data Messaging
 Text
 
+# Debugging
 
+minikube start --addons=ingress --driver=none --memory 4096 --cpus 2 
+
+# Screencast
+[Link]()
 
