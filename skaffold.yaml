@@ -22,13 +22,13 @@ deploy:
     releases:
     - name: kafka-chart
       chartPath: ./helm-strimzi/strimzi-kafka-operator/
-    - name: hdfs-chart
-      chartPath: ./helm-hdfs/hadoop/
-      namespace: default
-      setValues: 
-        hdfs.dataNode.replicas: 1 
-        yarn.nodeManager.replicas: 1 
-        hdfs.webhdfs.enabled: true
+    #- name: hdfs-chart
+    #  chartPath: ./helm-hdfs/hadoop/
+    #  namespace: default
+    #  setValues: 
+    #    hdfs.dataNode.replicas: 1 
+    #    yarn.nodeManager.replicas: 1 
+    #    hdfs.webhdfs.enabled: true
   kubectl:
     manifests:
     - adminer-deployment.yaml
@@ -36,19 +36,19 @@ deploy:
     - db-claim0-persistentvolumeclaim.yaml
     - db-deployment.yaml
     - db-service.yaml
-    - k8s-app/adminer-deployment.yaml
-    - k8s-app/adminer-service.yaml
+    #- k8s-app/adminer-deployment.yaml
+    #- k8s-app/adminer-service.yaml
     - k8s-app/db-claim0-persistentvolumeclaim.yaml
     - k8s-app/db-deployment.yaml
     - k8s-app/db-service.yaml
     - k8s-app/db_mysql.yaml
     - k8s-app/memcached.yaml
-    - k8s-app/spark.yaml
+    #- k8s-app/spark.yaml
     - k8s-app/webapp.yaml
     - k8s-app/strimzi_cluster.yaml
     # - k8s-app/kafka_topic.yml  
-    - kafka_prod/python-publisher/k8s/*
-    - kafka_prod/python-subscriber/k8s/*
+    #- kafka_prod/python-publisher/k8s/*
+    #- kafka_prod/python-subscriber/k8s/*
       #- k8s-demo-app/01-mysql-deployment.yaml
       #- k8s-demo-app/02-k8s-mysql-service.yaml
       #- k8s-demo-app/03-memcached-deployment-and-service.yaml

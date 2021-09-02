@@ -5,7 +5,20 @@ metadata:
 data:
   mysql-init.sql: |
     DROP TABLE IF EXISTS `Chicago_Crimes_sample`;
+
+    DROP TABLE IF EXISTS `Chicago_Crimes_sample`;
   
+    DROP TABLE IF EXISTS `Crime_Year`;
+    
+    CREATE TABLE `Crime_Year` (
+    `YEAR` int DEFAULT NULL,
+    `COUNT` int DEFAULT NULL
+    )
+    
+    LOCK TABLES `Crime_Year` WRITE;
+    INSERT INTO `Crime_Year` VALUES (2004,4000), (2005, 4500), (2006, 4200), (2007, 4500);
+    UNLOCK TABLES;
+    
     CREATE TABLE `Chicago_Crimes_sample` (
     `id` int DEFAULT NULL,
     `CaseNumber` varchar(8) DEFAULT NULL,
