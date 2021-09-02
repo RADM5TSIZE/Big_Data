@@ -7,7 +7,7 @@ Das folgende Projekt wurde für das Modul "Big Data" konzipiert:
 - 2512023
 - 9917195
 - 4151972
-- "Micha nummer hier"
+- 2966851
 
 # Beschreibung Big Data Use Case
 Unser Big Data Use Case stellt über eine Flask Web-Anwendung verschiedene Information zur Kriminalität in Chicago (USA) dar.
