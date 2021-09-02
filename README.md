@@ -26,7 +26,8 @@ Die originalen Daten zu diesem Projekt sind unter folgendem [Link](https://www.k
 7. flask v2.0.1
 
 # Leitfaden
-1. Terminal öffnen und 
+
+Folgenden Befehle sollten unter Berücksichtigung der jeweiligen Ordnerstruktur ausgeführt werden.
 
 ### 1. Installiere Minikube
 
@@ -40,9 +41,8 @@ minikube start
 
 ### 2. Installiere Skaffold
 
-Um später Skaffold nutzen zu können muss dieses auf den localen Maschine installiert sein. 
+Um später Skaffold nutzen zu können muss dieses auf den localen Maschine installiert sein:
 Unter folgendem Link befindet sich die dazugehörige [Dokumentation](https://skaffold.dev/docs/install/).
-
 
 ### 3. Aktiviere ingress addon
 
@@ -53,7 +53,16 @@ minikube addons enable ingress
 ```
 
 
-### 4. Starte die Cluster 
+### 4. kontext Minikube-Docker
+
+Mittels des folgenden Befehls wird die Wiederbenutzung des Docker-Deamon in der Minikube Instanz ermöglicht.
+
+```
+eval $(minikube docker-env)
+```
+
+
+### 5. Starte die Cluster 
 
 Mit den zuvor installierten Tools lässt nun die Applikation mit folgendem Befehl starten:
 
@@ -63,9 +72,7 @@ skaffold dev
 ```
 
 
-
-minikube start --addons=ingress --driver=none --memory 4096 --cpus 2 
-eval $(minikube docker-env)
+#minikube start --addons=ingress --driver=none --memory 4096 --cpus 2 
 
 
 # Screencast
