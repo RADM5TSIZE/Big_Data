@@ -3,12 +3,11 @@ from pyspark.sql.functions import *
 from pyspark.sql.types import IntegerType, StringType, DateType, BooleanType, StructType, TimestampType
 import mysqlx
 
-dbOptions = {"host": "my-app-mysql-service", 'port': 33060, "user": "root", "password": "root"}
+dbOptions = {"host": "my-app-mysql-service", 'port': 3306, "user": "root", "password": "root"}
 dbSchema = 'crimes'
-windowDuration = '5 minutes'
 slidingDuration = '1 minute'
 
-# Example Part 1
+
 # Create a spark session
 spark = SparkSession.builder \
     .appName("Structured Streaming").getOrCreate()
@@ -16,17 +15,15 @@ spark = SparkSession.builder \
 # Set log level
 spark.sparkContext.setLogLevel('ERROR')
 
-
-# Example Part 2
 # Read messages from Kafka
-kafkaMessages = spark \
+kafkaMessages = spark \ 
     .readStream \
     .format("kafka") \
     .option("kafka.bootstrap.servers", \
             "my-cluster-kafka-bootstrap:9091") \
     .option("subscribe", "crime-topic") \
     .option("startingOffsets", "earliest") \
-    .load()
+    .load()    
 
 print("test123", kafkaMessages)
 
@@ -42,8 +39,7 @@ crimeSchema = StructType() \
     .add("locationdescription", StringType()) \
     .add("arrest", BooleanType())
 
-# Example Part 3
-# Convert value: binary -> JSON -> fields + parsed timestamp
+#Parse JSON messages 
 crimeMessages = kafkaMessages.select(
     # Extract 'value' from Kafka message (i.e., the tracking data)
     from_json(
@@ -51,11 +47,6 @@ crimeMessages = kafkaMessages.select(
         crimeSchema
     ).alias("json")
 ).select(
-    # Convert Unix timestamp to TimestampType
-    #from_unixtime(column('json.timestamp'))
-    #.cast(TimestampType())
-    #.alias("parsed_timestamp"),
-
     # Select all JSON fields
     column("json.*")
 ) \
@@ -82,18 +73,18 @@ popular = trackingMessages.groupBy(
     column("mission")
 ).count().withColumnRenamed('count', 'views')
 """
-#INS Miguel: Group by arrest / no arrest
+#INS Miguel: Group by year
 
-arrests = crimeMessages.groupBy(
-    column("arrest")
-).count().withColumnRenamed('count', 'arrestcount')
+crimesperyear = crimeMessages.groupBy(
+    column("year")
+).count().withColumnRenamed('count', 'yearcount')
 
 
 
 
 # Example Part 5
 # Start running the query; print running counts to the console
-consoleDump = arrests \
+consoleDump = crimesperyear \
     .writeStream \
     .trigger(processingTime=slidingDuration) \
     .outputMode("update") \
@@ -109,14 +100,14 @@ def saveToDatabase(batchDataframe, batchId):
     def save_to_db(iterator):
         # Connect to database and use schema
         session = mysqlx.get_session(dbOptions)
-        session.sql("USE arrests").execute()  # Spark DataFrame mit Verhaftungen nutzen
+        session.sql("USE crimesperyear").execute()  # Spark DataFrame mit Verhaftungen nutzen
 
         for row in iterator:
             # Run upsert (insert or update existing)
-            sql = session.sql("INSERT INTO popular "
-                              "(arrest, count) VALUES (?, ?) "
-                              "ON DUPLICATE KEY UPDATE count=?")
-            sql.bind(row.mission, row.views, row.views).execute()
+            sql = session.sql("INSERT INTO Crime_Year "
+                              "(YEAR, COUNT) VALUES (?, ?) "
+                              "ON DUPLICATE KEY UPDATE COUNT=?")
+            sql.bind(row.year, row.count, row.count).execute()
 
         session.close()
 
@@ -125,13 +116,13 @@ def saveToDatabase(batchDataframe, batchId):
 
 # Example Part 7
 
-"""
-dbInsertStream = popular.writeStream \
+
+dbInsertStream = crimesperyear.writeStream \
     .trigger(processingTime=slidingDuration) \
     .outputMode("update") \
     .foreachBatch(saveToDatabase) \
     .start()
-"""
+
 
 # Wait for termination
 spark.streams.awaitAnyTermination()
