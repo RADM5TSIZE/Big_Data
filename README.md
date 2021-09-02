@@ -19,6 +19,21 @@ Die originalen Daten zu diesem Projekt sind unter folgendem [Link](https://www.k
 ## Leitfaden
 Schritt für Schritt um das Ding zu starten
 
+
+installiere skaffold
+
+isntalliere kubernetes minikube 
+
+Install helm, installiere kubernetes minikube, installiere skaffold... wenn es noch nicht installiert ist
+
+start minikube
+
+minikube addons enable ingress (wenn es nicht funktioniert, minikube löschen und noch mal neu mit sudo minikube start --addons=ingress --driver=none --memory 4096 --cpus 2 installieren)
+
+eval $(minikube docker-env)
+
+skaffold dev
+
 ## Screencast
 [Link]()
 
