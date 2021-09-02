@@ -46,7 +46,7 @@ Die Datenbank ist realsiert mit einer MySQL Datenbank und läuft in einem eigene
 ### Data Lake
 Der Data Lake ist über ein HDFS realisiert. 
 ### Big Data Messaging
-- [ ] Infos Miguel
+Text
 
 
 
