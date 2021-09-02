@@ -1,3 +1,5 @@
+Das folgende Projekt wurde für das Modul "Big Data" konzipiert:
+
 # Mitarbeiter
 
 - 9803923
@@ -5,7 +7,7 @@
 - 2512023
 - 9917195
 - 4151972
-- <Micha nummer hier>
+- "Micha nummer hier"
 
 # Beschreibung Big Data Use Case
 Unser Big Data Use Case stellt über eine Flask Web-Anwendung verschiedene Information zur Kriminalität in Chicago (USA) dar.
@@ -14,7 +16,7 @@ Unser Big Data Use Case stellt über eine Flask Web-Anwendung verschiedene Infor
 # Daten
 Die originalen Daten zu diesem Projekt sind unter folgendem [Link](https://www.kaggle.com/currie32/crimes-in-chicago) zu finden.
 
-# Erforderliche Software
+# Genuzte Software
 1. spark v3.0.0
 2. minikube v1.22.0 mit Kubernetes v1.21.2
 3. kubectl v1.21.4
@@ -26,11 +28,45 @@ Die originalen Daten zu diesem Projekt sind unter folgendem [Link](https://www.k
 # Leitfaden
 1. Terminal öffnen und 
 
-minikube addons enable ingress (wenn es nicht funktioniert, minikube löschen und noch mal neu mit sudo minikube start --addons=ingress --driver=none --memory 4096 --cpus 2 installieren)
+### 1. Installiere Minikube
 
+Sollte Minikube auf der lokalen Maschine noch nicht installiert sein, befindet sich unter folgendem Link die entsprechenden [Anleitung](https://kubernetes.io/de/docs/tasks/tools/install-minikube/).
+
+Daraufhin wird mit folgendem Befehl Minikube egestartet:
+
+```
+minikube start
+```
+
+### 2. Installiere Skaffold
+
+Um später Skaffold nutzen zu können muss dieses auf den localen Maschine installiert sein. 
+Unter folgendem Link befindet sich die dazugehörige [Dokumentation](https://skaffold.dev/docs/install/).
+
+
+### 3. Aktiviere ingress addon
+
+Aktiviere die Addons mittels des Befehls: 
+
+```
+minikube addons enable ingress
+```
+
+
+### 4. Starte die Cluster 
+
+Mit den zuvor installierten Tools lässt nun die Applikation mit folgendem Befehl starten:
+
+
+```
+skaffold dev
+```
+
+
+
+minikube start --addons=ingress --driver=none --memory 4096 --cpus 2 
 eval $(minikube docker-env)
 
-skaffold dev
 
 # Screencast
 [Link]()
