@@ -28,27 +28,14 @@ engine.dispose()
 
 
 
-"""
-#currently not necessary
-crimes01to04 = pd.read_csv('WebApp/tempdatafolder/Chicago_Crimes_2001_to_2004.csv', error_bad_lines=False)
-crimes05to07 = pd.read_csv('WebApp/tempdatafolder/Chicago_Crimes_2001_to_2004.csv', error_bad_lines=False)
-crimes08to11 = pd.read_csv('WebApp/tempdatafolder/Chicago_Crimes_2001_to_2004.csv', error_bad_lines=False)
-crimes12to17 = pd.read_csv('WebApp/tempdatafolder/Chicago_Crimes_2001_to_2004.csv', error_bad_lines=False)
-#the smaller dataframes get concatenated to one big one ... later this happens when streaming data gets added to the data from
-# the data lake
-crimes_list = [crimes01to04, crimes05to07, crimes08to11, crimes12to17]
-crimes = pd.concat(crimes_list)
+
 #data preparation
-"""
+
 crimes['YEAR'] = crimes['YEAR'].astype('int')
 #in testing we found that there is a faulty line, where the year is specified as 41, this whole line gets deleted,
 # because the probability of it beiing a faulty row in general is high and we have enough other entrys
 crimes = crimes[crimes.YEAR != 41]
-#currently not needed
-#crimes['mmddyyyy'] = crimes['Date'].astype(str).str[0:10].astype(str)
-#crimes['mmddyyyy'].apply(lambda x: datetime.datetime.strptime(x, '%m/%d/%Y'))
 
-#data preparation
 #the month-information gets read from the Date-column
 crimes['month'] = crimes['Date'].astype(str).str[0:2].astype(str)
 
