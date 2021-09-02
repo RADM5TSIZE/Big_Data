@@ -11,7 +11,7 @@ Die originalen Daten zu diesem Projekt sind unter folgendem [Link](https://www.k
 1. spark v3.0.0
 2. minikube v1.22.0 mit Kubernetes v1.21.2
 3. kubectl v1.21.4
-4. kafka v0.25.0
+4. kafka v2.6
 5. docker v20.10.8
 6. mysql v1.22.1
 7. flask v2.0.1
