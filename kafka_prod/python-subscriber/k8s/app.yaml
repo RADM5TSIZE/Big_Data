@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: python-subscriber
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: python-subscriber
+  template:
+    metadata:
+      labels:
+        app: python-subscriber
+    spec:
+      securityContext:
+        runAsUser: 1000
+      containers:
+        - name: python-subscriber
+          image: python-kafka-subscriber-demo

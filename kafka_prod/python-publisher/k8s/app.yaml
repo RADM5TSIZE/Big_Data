@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: python-publisher
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: python-publisher
+  template:
+    metadata:
+      labels:
+        app: python-publisher
+    spec:
+      securityContext:
+        runAsUser: 1000
+      containers:
+        - name: python-publisher
+          image: python-kafka-publisher-demo

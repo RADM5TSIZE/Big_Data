@@ -3,8 +3,8 @@ from pyspark.sql.functions import *
 from pyspark.sql.types import IntegerType, StringType, DateType, BooleanType, StructType, TimestampType
 import mysqlx
 
-dbOptions = {"host": "my-app-mysql-service", 'port': 33060, "user": "root", "password": "mysecretpw"}
-dbSchema = 'popular'
+dbOptions = {"host": "my-app-mysql-service", 'port': 33060, "user": "root", "password": "root"}
+dbSchema = 'crimes'
 windowDuration = '5 minutes'
 slidingDuration = '1 minute'
 
@@ -14,21 +14,24 @@ spark = SparkSession.builder \
     .appName("Structured Streaming").getOrCreate()
 
 # Set log level
-spark.sparkContext.setLogLevel('WARN')
+spark.sparkContext.setLogLevel('ERROR')
+
 
 # Example Part 2
 # Read messages from Kafka
 kafkaMessages = spark \
     .readStream \
     .format("kafka") \
-    .option("kafka.bootstrap.servers",
-            "my-cluster-kafka-bootstrap:9092") \
-    .option("subscribe", "tracking-data") \
+    .option("kafka.bootstrap.servers", \
+            "my-cluster-kafka-bootstrap:9091") \
+    .option("subscribe", "crime-topic") \
     .option("startingOffsets", "earliest") \
     .load()
 
+print("test123", kafkaMessages)
+
 # Define schema of crime data
-trackingMessageSchema = StructType() \
+crimeSchema = StructType() \
     .add("id", IntegerType()) \
     .add("casenumber", StringType()) \
     .add("date", DateType()) \
@@ -41,24 +44,33 @@ trackingMessageSchema = StructType() \
 
 # Example Part 3
 # Convert value: binary -> JSON -> fields + parsed timestamp
-trackingMessages = kafkaMessages.select(
+crimeMessages = kafkaMessages.select(
     # Extract 'value' from Kafka message (i.e., the tracking data)
     from_json(
         column("value").cast("string"),
-        trackingMessageSchema
+        crimeSchema
     ).alias("json")
 ).select(
     # Convert Unix timestamp to TimestampType
-    from_unixtime(column('json.timestamp'))
-    .cast(TimestampType())
-    .alias("parsed_timestamp"),
+    #from_unixtime(column('json.timestamp'))
+    #.cast(TimestampType())
+    #.alias("parsed_timestamp"),
 
     # Select all JSON fields
     column("json.*")
 ) \
-    .withColumnRenamed('json.mission', 'mission') \
-    .withWatermark("parsed_timestamp", windowDuration)
+    .withColumnRenamed('json.id', 'id') \
+    .withColumnRenamed('json.casenumber', 'casenumber') \
+    .withColumnRenamed('json.date', 'date') \
+    .withColumnRenamed('json.block', 'block') \
+    .withColumnRenamed('json.iucr', 'iucr') \
+    .withColumnRenamed('json.primarytype', 'primarytype') \
+    .withColumnRenamed('json.dscription', 'description') \
+    .withColumnRenamed('json.locationdescription', 'locationdescription') \
+    .withColumnRenamed('json.arrest', 'arrest') \
+    #.withWatermark("parsed_timestamp", windowDuration)
 
+"""
 # Example Part 4
 # Compute most popular slides
 popular = trackingMessages.groupBy(
@@ -69,10 +81,19 @@ popular = trackingMessages.groupBy(
     ),
     column("mission")
 ).count().withColumnRenamed('count', 'views')
+"""
+#INS Miguel: Group by arrest / no arrest
+
+arrests = crimeMessages.groupBy(
+    column("arrest")
+).count().withColumnRenamed('count', 'arrestcount')
+
+
+
 
 # Example Part 5
 # Start running the query; print running counts to the console
-consoleDump = popular \
+consoleDump = arrests \
     .writeStream \
     .trigger(processingTime=slidingDuration) \
     .outputMode("update") \
@@ -88,12 +109,12 @@ def saveToDatabase(batchDataframe, batchId):
     def save_to_db(iterator):
         # Connect to database and use schema
         session = mysqlx.get_session(dbOptions)
-        session.sql("USE popular").execute()
+        session.sql("USE arrests").execute()  # Spark DataFrame mit Verhaftungen nutzen
 
         for row in iterator:
             # Run upsert (insert or update existing)
             sql = session.sql("INSERT INTO popular "
-                              "(mission, count) VALUES (?, ?) "
+                              "(arrest, count) VALUES (?, ?) "
                               "ON DUPLICATE KEY UPDATE count=?")
             sql.bind(row.mission, row.views, row.views).execute()
 
@@ -104,12 +125,13 @@ def saveToDatabase(batchDataframe, batchId):
 
 # Example Part 7
 
-
+"""
 dbInsertStream = popular.writeStream \
     .trigger(processingTime=slidingDuration) \
     .outputMode("update") \
     .foreachBatch(saveToDatabase) \
     .start()
+"""
 
 # Wait for termination
 spark.streams.awaitAnyTermination()
