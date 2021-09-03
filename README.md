@@ -112,9 +112,7 @@ Für das Messaging wird Apache Kafka, speziell der Strimzi Kafka Operator verwen
 Das Kafka Publishing wird von eigenen Pod übernommen, der aktuell zufällige Werte aus der Datenbanktabelle Chicago_Crimes_sample liest. Die so erstellten Messages werden von Spark weiterverarbeitet.
 
 ## Spark
-
-Spark ist dafür verantwortlich, die einzelnen Messages zu gruppieren und zu zählen und das Ergebnis in die Datenbank zu schreiben, von wo aus es von der Web App gelesen wird.
-
+Spark empfängt die Daten von Kafka in Form von einzelnden Messages. Diese Messages werden daraufhin gruppiert und sowie gezählt. Die Ergebnisse werden dann in die Datenbank geschrieben, von wo aus es von der Web App gelesen wird.
 
 
 # Screencast
