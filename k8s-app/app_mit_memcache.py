@@ -22,12 +22,9 @@ from pymemcache import serde
 
 
 #geht aktuell nicht, bekomme es nicht hin
-print("test0")
 engine = create_engine('mysql+pymysql://root:root@my-app-mysql-service:3306/crimes', connect_args={'connect_timeout':120}, pool_pre_ping=True)		
-print("test1")
 crimes = pd.read_sql('Chicago_Crimes_sample', con=engine.connect())
 engine.dispose()
-print("test2")
 
 
 
@@ -132,17 +129,15 @@ def create_figureDistricts():
     ax = crimes['District'].value_counts().sort_index().plot(kind="bar")
     return fig
 
-#get the values that are stored in Memcached
-
-#if no value is stored in Memcached, run the function to calculate value and then store it in the cache
-
 #plots
 @app.route('/plotmonthly.png')
 def plotmonth_png():
-
+	
+    # Clearing Var and try loading plot from cache
     result_figureMonth = None
     result_figureMonth = client.get('figureMonth_key')
     
+    # if cache empty, pull data from database and save plot in cache
     if result_figureMonth is None:
         result_figureMonth = create_figureMonth()
         client.set('figureMonth_key', result_figureMonth, 10)	
@@ -156,9 +151,11 @@ def plotmonth_png():
 @app.route('/plotyearly.png')
 def plotyear_png():
     
-    
+   # Clearing Var and try loading plot from cache
+    result_figureYear = None
     result_figureYear = client.get('figureYear_key')   
     
+    # if cache empty, pull data from database and save plot in cache
     if result_figureYear is None:
         result_figureYear = create_figureYear()
         client.set('figureYear_key', result_figureYear, 10)
@@ -171,6 +168,7 @@ def plotyear_png():
 @app.route('/arrests.png')
 def arrests_png():
 
+    # Clearing Var and try loading plot from cache
     result_figureArrests = None
     result_figureArrests = client.get('figureArrests_key')
 
@@ -178,6 +176,7 @@ def arrests_png():
         result_figureArrests = create_figureArrests()
         client.set('figureArrests_key', result_figureArrests, 10)
     
+    # if cache empty, pull data from database and save plot in cache
     fig = result_figureArrests
     output = io.BytesIO()
     FigureCanvas(fig).print_png(output)
@@ -186,9 +185,11 @@ def arrests_png():
 @app.route('/domestic.png')
 def domestic_png():
 
+    # Clearing Var and try loading plot from cache
     result_figureDomestic = None
     result_figureDomestic = client.get('figureDomestic_key')
     
+    # if cache empty, pull data from database and save plot in cache
     if result_figureDomestic is None:
         result_figureDomestic = create_figureDomestic()
         client.set('figureDomestic_key', result_figureDomestic, 10)
@@ -201,9 +202,11 @@ def domestic_png():
 @app.route('/crimetypes.png')
 def crimetypes_png():
 
+    # Clearing Var and try loading plot from cache
     result_figureCrimeTypes = None
     result_figureCrimeTypes = client.get('figureCrimeTypes_key')
 
+    # if cache empty, pull data from database and save plot in cache
     if result_figureCrimeTypes is None:
         result_figureCrimeTypes = create_figureCrimeTypes()
         client.set('figureCrimeTypes_key', result_figureCrimeTypes, 10)
@@ -216,9 +219,11 @@ def crimetypes_png():
 @app.route('/districts.png')
 def districts_png():
 
+    # Clearing Var and try loading plot from cache
     result_figureDistricts = None
     result_figureDistricts = client.get('figureDistricts_key')
 
+    # if cache empty, pull data from database and save plot in cache
     if result_figureDistricts is None:
         result_figureDistricts = create_figureDistricts()
         client.set('figureDistricts_key', result_figureDistricts, 10)
