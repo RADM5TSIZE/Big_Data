@@ -2,8 +2,9 @@ from pyspark.sql import SparkSession
 from pyspark.sql.functions import *
 from pyspark.sql.types import IntegerType, StringType, DateType, BooleanType, StructType, TimestampType
 import mysqlx
+import sys
 
-dbOptions = {"host": "my-app-mysql-service", 'port': 3306, "user": "root", "password": "root"}
+dbOptions = {"host": "my-app-mysql-service", 'port': 33060, "user": "root", "password": "root"}
 dbSchema = 'crimes'
 slidingDuration = '1 minute'
 
@@ -16,15 +17,8 @@ spark = SparkSession.builder \
 spark.sparkContext.setLogLevel('ERROR')
 
 # Read messages from Kafka
-kafkaMessages = spark \ 
-    .readStream \
-    .format("kafka") \
-    .option("kafka.bootstrap.servers", \
-            "my-cluster-kafka-bootstrap:9091") \
-    .option("subscribe", "crime-topic") \
-    .option("startingOffsets", "earliest") \
-    .load()    
-
+kafkaMessages = spark.readStream.format("kafka").option("kafka.bootstrap.servers", "my-cluster-kafka-bootstrap:9092").option("subscribe", "big_data_demo").option("startingOffsets", "earliest").load()  
+    
 print("test123", kafkaMessages)
 
 # Define schema of crime data
@@ -51,6 +45,9 @@ crimeSchema = StructType() \
     .add("latitude", IntegerType()) \
     .add("longitude", IntegerType()) \
     .add("location", StringType())
+
+
+print('Hier' + str(sys.getsizeof(kafkaMessages)))
 
 #Parse JSON messages 
 crimeMessages = kafkaMessages.select(
@@ -101,11 +98,13 @@ popular = trackingMessages.groupBy(
 """
 #INS Miguel: Group by year
 
+#print(crimeMessages)
+
 crimesperyear = crimeMessages.groupBy(
     column("year")
 ).count().withColumnRenamed('count', 'yearcount')
 
-
+#print(crimesperyear.show())
 
 
 # Example Part 5
@@ -126,9 +125,16 @@ def saveToDatabase(batchDataframe, batchId):
     def save_to_db(iterator):
         # Connect to database and use schema
         session = mysqlx.get_session(dbOptions)
-        session.sql("USE crimesperyear").execute()  # Spark DataFrame mit Verhaftungen nutzen
+        session.sql("USE crimes").execute()  # Spark DataFrame mit Verhaftungen nutzen
+
+        print('test')
+        print(session)
+        print(iterator)
 
         for row in iterator:
+        
+            print('Year: ' + str(row.year))
+            print(row.count)                       
             # Run upsert (insert or update existing)
             sql = session.sql("INSERT INTO Crime_Year "
                               "(YEAR, COUNT) VALUES (?, ?) "
@@ -138,7 +144,9 @@ def saveToDatabase(batchDataframe, batchId):
         session.close()
 
     # Perform batch UPSERTS per data partition
+    print(batchDataframe)
     batchDataframe.foreachPartition(save_to_db)
+    print('done')
 
 # Example Part 7
 
@@ -152,3 +160,4 @@ dbInsertStream = crimesperyear.writeStream \
 
 # Wait for termination
 spark.streams.awaitAnyTermination()
+

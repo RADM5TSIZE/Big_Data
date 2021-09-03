@@ -1,15 +1,17 @@
-FROM python:3-alpine
+FROM python:3-slim
 
 RUN pip install --upgrade pip
 
-RUN adduser -D python
-USER python
-WORKDIR /home/python
+#RUN adduser -D python
+#USER python
+WORKDIR /work
 
-COPY --chown=python:python requirements.txt .
-ENV PATH="/home/python/.local/bin:${PATH}"
-RUN pip install --user -r requirements.txt
+COPY requirements.txt .
+#ENV PATH="/home/python/.local/bin:${PATH}"
+RUN pip install -r requirements.txt
 
-COPY --chown=python:python src src
+COPY src/ /src
 
-CMD ["python", "/home/python/src/app.py"]
+#RUN tree /
+
+CMD ["python", "/src/app.py"]

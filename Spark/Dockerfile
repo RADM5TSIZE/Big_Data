@@ -36,6 +36,7 @@ WORKDIR /app
 # to benefit from Docker's build cache
 RUN touch /tmp/empty.py && spark-submit --verbose \
 	--conf "spark.jars.ivy=${IVY_PACKAGE_DIR}" \
+	--conf "spark.driver.memory=8g" \
 	--packages "${SPARK_KAFKA_DEPENDENCY}" \
 	/tmp/empty.py && rm -f /tmp/empty.py
 
@@ -71,6 +72,7 @@ COPY --chown=spark:spark *.py /app/
 ENTRYPOINT spark-submit --verbose \
 	--master local \
 	--conf "spark.jars.ivy=${IVY_PACKAGE_DIR}" \
+        --conf "spark.driver.memory=8g" \
 	--packages "${SPARK_KAFKA_DEPENDENCY}" \
 	--py-files /app/dependencies.zip \
 	/app/spark-app.py

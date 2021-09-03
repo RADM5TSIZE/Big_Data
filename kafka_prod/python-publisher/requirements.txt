@@ -1,2 +1,6 @@
 essential_generators
 kafka-python
+pandas
+pymysql
+sqlalchemy
+cryptography
