@@ -44,7 +44,12 @@ minikube start
 Um später Skaffold nutzen zu können muss dieses auf den localen Maschine installiert sein:
 Unter folgendem Link befindet sich die dazugehörige [Dokumentation](https://skaffold.dev/docs/install/).
 
-### 3. Aktiviere ingress addon
+### 3. Installiere Helm
+
+Folge für die Installation den jeweiligen Anweisungen auf der [ofiziellen Helm Webseite](https://helm.sh/docs/intro/install/).
+
+
+### 4. Aktiviere ingress addon
 
 Aktiviere die Addons mittels des Befehls: 
 
@@ -53,7 +58,7 @@ minikube addons enable ingress
 ```
 
 
-### 4. kontext Minikube-Docker
+### 5. kontext Minikube-Docker
 
 Mittels des folgenden Befehls wird die Wiederbenutzung des Docker-Deamon in der Minikube Instanz ermöglicht.
 
@@ -62,7 +67,7 @@ eval $(minikube docker-env)
 ```
 
 
-### 5. Starte die Cluster 
+### 6. Starte die Cluster 
 
 Mit den zuvor installierten Tools lässt nun die Applikation mit folgendem Befehl starten:
 
