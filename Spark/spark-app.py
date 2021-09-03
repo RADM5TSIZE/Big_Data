@@ -19,7 +19,6 @@ spark.sparkContext.setLogLevel('ERROR')
 # Read messages from Kafka
 kafkaMessages = spark.readStream.format("kafka").option("kafka.bootstrap.servers", "my-cluster-kafka-bootstrap:9092").option("subscribe", "big_data_demo").option("startingOffsets", "earliest").load()  
     
-print("test123", kafkaMessages)
 
 # Define schema of crime data
 crimeSchema = StructType() \
@@ -47,7 +46,6 @@ crimeSchema = StructType() \
     .add("LOCATION", StringType())
 
 
-print('Hier' + str(sys.getsizeof(kafkaMessages)))
 
 #Parse JSON messages 
 crimeMessages = kafkaMessages.select(
@@ -127,14 +125,9 @@ def saveToDatabase(batchDataframe, batchId):
         session = mysqlx.get_session(dbOptions)
         session.sql("USE crimes").execute()  # Spark DataFrame mit Verhaftungen nutzen
 
-        print('test')
-        print(session)
-        print(iterator)
 
         for row in iterator:
-        
-            print('Year: ' + str(row.year))
-            print(row.yearcount)                       
+                   
             # Run upsert (insert or update existing)
             sql = session.sql("INSERT INTO Crime_Year "
                               "(YEAR, COUNT) VALUES (?, ?) "
@@ -146,7 +139,7 @@ def saveToDatabase(batchDataframe, batchId):
     # Perform batch UPSERTS per data partition
     print(batchDataframe)
     batchDataframe.foreachPartition(save_to_db)
-    print('done')
+    print('Query Done')
 
 # Example Part 7
 
