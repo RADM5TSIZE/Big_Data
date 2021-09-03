@@ -78,7 +78,7 @@ skaffold dev --port-forward --status-check=false
 
 Unter http://localhost:5000/ kann auf die **Webapp** zugegriffen werden.
 ### Beachte
-Aus Zeitgründen funktioniert nur der Plot 'Yearly' richtig. Dieser Plot zieht die Daten aus einer Datenbanktabelle, die die Daten aus Spark bekommt. Spark schreibt jede Minute neue Daten in Datenbank. Die anderen Plots ziehen ihre Daten aus einer statischen Datenbanktabelle und verändern sich nicht. 
+Aus Zeitgründen funktioniert nur der Plot 'Yearly' richtig. Dieser Plot zieht die Daten aus einer Datenbanktabelle, die die Daten aus Spark bekommt. Spark schreibt jede Minute neue Daten in Datenbank. Für die anderen Plots werden die gesamten Daten aus der MySQL-Datenbank geladen und die nötigen Berechnungen werden lokal in der Web-App durchgeführt. 
 
 # Dokumentation
 
