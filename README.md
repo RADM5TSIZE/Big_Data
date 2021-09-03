@@ -46,7 +46,7 @@ Unter folgendem Link befindet sich die dazugehörige [Dokumentation](https://ska
 
 ### 3. Installiere Helm
 
-Folge für die Installation den jeweiligen Anweisungen auf der [ofiziellen Helm Webseite](https://helm.sh/docs/intro/install/).
+Folge für die Installation den jeweiligen Anweisungen auf der [offiziellen Helm Website](https://helm.sh/docs/intro/install/).
 
 
 ### 4. Aktiviere ingress addon
