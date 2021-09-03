@@ -67,21 +67,16 @@ eval $(minikube docker-env)
 ```
 
 
-### 6. Starte die Cluster 
+### 6. Starte die Applikation 
 
-Mit den zuvor installierten Tools lässt nun die Applikation mit folgendem Befehl starten:
+Mit den zuvor installierten Tools lässt sich nun die Applikation mit folgendem Befehl starten:
 
 
 ```
 skaffold dev
 ```
 
-
-#minikube start --addons=ingress --driver=none --memory 4096 --cpus 2 
-
-
-# Screencast
-[Link]()
+Unter http://localhost:5000/ kann auf die **Webapp** zugegriffen werden.
 
 # Dokumentation
 
@@ -117,5 +112,10 @@ Das Kafka Publishing wird von eigenen Pod übernommen, der aktuell zufällige We
 ## Spark
 
 Spark ist dafür verantwortlich, die einzelnen Messages zu gruppieren und zu zählen und das Ergebnis in die Datenbank zu schreiben, von wo aus es von der Web App gelesen wird.
+
+
+
+# Screencast
+[Link]()
 
 
