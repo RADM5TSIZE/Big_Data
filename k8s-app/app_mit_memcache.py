@@ -103,9 +103,9 @@ def create_figureYear():
     crime_year = pd.read_sql('Crime_Year', con=engine.connect())
     engine.dispose()
     
-    print(crime_year)
-    
     ax.bar(crime_year['YEAR'], crime_year['COUNT'])
+    ax.bar_label(ax.containers[0])
+    
     
     return fig
 
@@ -145,7 +145,7 @@ def plotmonth_png():
     
     if result_figureMonth is None:
         result_figureMonth = create_figureMonth()
-        client.set('figureMonth_key', result_figureMonth, 30)	
+        client.set('figureMonth_key', result_figureMonth, 10)	
 
 
     fig = result_figureMonth
@@ -161,7 +161,7 @@ def plotyear_png():
     
     if result_figureYear is None:
         result_figureYear = create_figureYear()
-        client.set('figureYear_key', result_figureYear, 30)
+        client.set('figureYear_key', result_figureYear, 10)
     
     fig = result_figureYear
     output = io.BytesIO()
@@ -176,7 +176,7 @@ def arrests_png():
 
     if result_figureArrests is None:
         result_figureArrests = create_figureArrests()
-        client.set('figureArrests_key', result_figureArrests)
+        client.set('figureArrests_key', result_figureArrests, 10)
     
     fig = result_figureArrests
     output = io.BytesIO()
@@ -191,7 +191,7 @@ def domestic_png():
     
     if result_figureDomestic is None:
         result_figureDomestic = create_figureDomestic()
-        client.set('figureDomestic_key', result_figureDomestic)
+        client.set('figureDomestic_key', result_figureDomestic, 10)
     
     fig = result_figureDomestic
     output = io.BytesIO()
@@ -206,7 +206,7 @@ def crimetypes_png():
 
     if result_figureCrimeTypes is None:
         result_figureCrimeTypes = create_figureCrimeTypes()
-        client.set('figureCrimeTypes_key', result_figureCrimeTypes)
+        client.set('figureCrimeTypes_key', result_figureCrimeTypes, 10)
     
     fig = result_figureCrimeTypes
     output = io.BytesIO()
@@ -221,7 +221,7 @@ def districts_png():
 
     if result_figureDistricts is None:
         result_figureDistricts = create_figureDistricts()
-        client.set('figureDistricts_key', result_figureDistricts)
+        client.set('figureDistricts_key', result_figureDistricts, 10)
     
     fig = result_figureDistricts
     output = io.BytesIO()

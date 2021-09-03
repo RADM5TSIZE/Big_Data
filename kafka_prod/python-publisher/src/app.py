@@ -23,8 +23,11 @@ producer = KafkaProducer(
 print("Verbindung hergestellt")
 while True:
 
-    sample = crimes.sample(n=1)
-    json = sample.to_json()
+    sample_crime = crimes.sample(n=1)
+    
+    print(sample_crime.iloc[0])
+    
+    json = sample_crime.iloc[0].to_json()
   
     next_msg = json   
     
@@ -32,4 +35,4 @@ while True:
     future = producer.send("big_data_demo", next_msg.encode())
     result = future.get(timeout=5)
     print(f"Result: {result}")
-    time.sleep(30)
+    time.sleep(5)

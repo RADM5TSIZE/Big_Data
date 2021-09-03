@@ -24,27 +24,27 @@ print("test123", kafkaMessages)
 # Define schema of crime data
 crimeSchema = StructType() \
     .add("id", IntegerType()) \
-    .add("casenumber", StringType()) \
-    .add("date", DateType()) \
-    .add("block", StringType()) \
-    .add("iucr", IntegerType()) \
-    .add("primarytype", StringType()) \
-    .add("description", StringType()) \
-    .add("locationdescription", StringType()) \
-    .add("arrest", BooleanType()) \
-    .add("domestic", StringType()) \
-    .add("beat", StringType()) \
-    .add("district", StringType()) \
-    .add("ward", StringType()) \
-    .add("communityarea", StringType()) \
-    .add("fbicode", IntegerType()) \
-    .add("xcoordinate", IntegerType()) \
-    .add("ycoordinate", IntegerType()) \
-    .add("year", IntegerType()) \
-    .add("updatedon", StringType()) \
-    .add("latitude", IntegerType()) \
-    .add("longitude", IntegerType()) \
-    .add("location", StringType())
+    .add("CaseNumber", StringType()) \
+    .add("Date", DateType()) \
+    .add("Block", StringType()) \
+    .add("IUCR", IntegerType()) \
+    .add("PrimaryType", StringType()) \
+    .add("Description", StringType()) \
+    .add("LocationDescription", StringType()) \
+    .add("Arrest", BooleanType()) \
+    .add("Domestic", StringType()) \
+    .add("Beat", StringType()) \
+    .add("District", StringType()) \
+    .add("Ward", StringType()) \
+    .add("CommunityArea", StringType()) \
+    .add("FBICode", IntegerType()) \
+    .add("XCoordinate", IntegerType()) \
+    .add("YCoordinate", IntegerType()) \
+    .add("YEAR", IntegerType()) \
+    .add("UpdatedOn", StringType()) \
+    .add("Latitude", IntegerType()) \
+    .add("Longitude", IntegerType()) \
+    .add("LOCATION", StringType())
 
 
 print('Hier' + str(sys.getsizeof(kafkaMessages)))
@@ -61,27 +61,27 @@ crimeMessages = kafkaMessages.select(
     column("json.*")
 ) \
     .withColumnRenamed('json.id', 'id') \
-    .withColumnRenamed('json.casenumber', 'casenumber') \
-    .withColumnRenamed('json.date', 'date') \
-    .withColumnRenamed('json.block', 'block') \
-    .withColumnRenamed('json.iucr', 'iucr') \
-    .withColumnRenamed('json.primarytype', 'primarytype') \
-    .withColumnRenamed('json.dscription', 'description') \
-    .withColumnRenamed('json.locationdescription', 'locationdescription') \
-    .withColumnRenamed('json.arrest', 'arrest') \
-    .withColumnRenamed('json.domestic', 'domestic') \
-    .withColumnRenamed('json.beat', 'beat') \
-    .withColumnRenamed('json.district', 'district') \
-    .withColumnRenamed('json.ward', 'ward') \
-    .withColumnRenamed('json.communityarea', 'communityarea') \
-    .withColumnRenamed('json.fbicode', 'fbicode') \
-    .withColumnRenamed('json.xcoordinate', 'xcoordinate') \
-    .withColumnRenamed('json.ycoordinate', 'ycoordinate') \
-    .withColumnRenamed('json.year', 'year') \
-    .withColumnRenamed('json.updatedon', 'updatedon') \
-    .withColumnRenamed('json.latitude', 'latitude') \
-    .withColumnRenamed('json.longitude', 'longitude') \
-    .withColumnRenamed('json.location', 'location') \
+    .withColumnRenamed('json.CaseNumber', 'casenumber') \
+    .withColumnRenamed('json.Date', 'date') \
+    .withColumnRenamed('json.Block', 'block') \
+    .withColumnRenamed('json.IUCR', 'iucr') \
+    .withColumnRenamed('json.PrimaryType', 'primarytype') \
+    .withColumnRenamed('json.Description', 'description') \
+    .withColumnRenamed('json.LocationDescription', 'locationdescription') \
+    .withColumnRenamed('json.Arrest', 'arrest') \
+    .withColumnRenamed('json.Domestic', 'domestic') \
+    .withColumnRenamed('json.Beat', 'beat') \
+    .withColumnRenamed('json.District', 'district') \
+    .withColumnRenamed('json.Ward', 'ward') \
+    .withColumnRenamed('json.CommunityArea', 'communityarea') \
+    .withColumnRenamed('json.FBICode', 'fbicode') \
+    .withColumnRenamed('json.XCoordinate', 'xcoordinate') \
+    .withColumnRenamed('json.YCoordinate', 'ycoordinate') \
+    .withColumnRenamed('json.YEAR', 'year') \
+    .withColumnRenamed('json.UpdatedOn', 'updatedon') \
+    .withColumnRenamed('json.Latitude', 'latitude') \
+    .withColumnRenamed('json.Longitude', 'longitude') \
+    .withColumnRenamed('json.LOCATION', 'location') \
     #.withWatermark("parsed_timestamp", windowDuration)
 
 """
@@ -134,12 +134,12 @@ def saveToDatabase(batchDataframe, batchId):
         for row in iterator:
         
             print('Year: ' + str(row.year))
-            print(row.count)                       
+            print(row.yearcount)                       
             # Run upsert (insert or update existing)
             sql = session.sql("INSERT INTO Crime_Year "
                               "(YEAR, COUNT) VALUES (?, ?) "
                               "ON DUPLICATE KEY UPDATE COUNT=?")
-            sql.bind(row.year, row.count, row.count).execute()
+            sql.bind(row.year, row.yearcount, row.yearcount).execute()
 
         session.close()
 
