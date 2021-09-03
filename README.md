@@ -27,7 +27,7 @@ Die originalen Daten zu diesem Projekt sind unter folgendem [Link](https://www.k
 
 # Leitfaden
 
-Folgenden Befehle sollten unter Berücksichtigung der jeweiligen Ordnerstruktur ausgeführt werden. (gastbetriebssystem ist Linux)
+Folgenden Befehle sollten unter Berücksichtigung der jeweiligen Ordnerstruktur ausgeführt werden.
 
 ### 1. Installiere Minikube
 
@@ -62,7 +62,7 @@ eval $(minikube docker-env)
 ```
 
 
-### 5. Starten der Applikation 
+### 5. Starte die Cluster 
 
 Mit den zuvor installierten Tools lässt nun die Applikation mit folgendem Befehl starten:
 
@@ -71,8 +71,12 @@ Mit den zuvor installierten Tools lässt nun die Applikation mit folgendem Befeh
 skaffold dev
 ```
 
-Unter http://localhost:5000/ kann auf die **Webapp** zugegriffen werden. 
 
+#minikube start --addons=ingress --driver=none --memory 4096 --cpus 2 
+
+
+# Screencast
+[Link]()
 
 # Dokumentation
 
@@ -96,20 +100,17 @@ Daten für die Diagramme werden mit Hilfe einer Anbindung an die Datenbank einge
 Erreichbar ist die Webapp über den Port 5000.
 ## Cache
 Der Cache ist über Memcached realisiert und speichert die Daten nach dem ersten Zugriff für die nächsten 30 Sekunden. Nach dieser Zeit werden die Daten wieder neu geladen. 
-Innerhalb der Webapp wird das Python-Modul pymemcache genutzt. Dort wird gecheckt, ob ein Wert im Cache vorhanden ist. Falls der Wert vorhanden ist, wird er sofort aus dem Cache gezogen, falls nicht, wird die Berechnungs-Funktion aufgerufen, der Wert berechnet und aufgerufen, und außerdem im Cache gespeichert.
+Innerhalb der Webapp wird das Python-Modul pymemcache genutzt. Dort wird gecheckt, ob ein Wert im Cache vorhanden ist. Falls der Wert vorhanden ist, wird er sofort aus dem Cache gezogen, falls nicht, wird die Berechnungs-Funktion aufgerufen, der Wert berechnet und dargestellt, und außerdem im Cache gespeichert.
 ## Datenbank
-
-Die Datenbank ist mittels eines kubernetes mySql-immages aufgabaut. Diese wird in einem Docker-Container mittels den relevalten Daten erstellt und darufhin hochgefahren. Die Datenbank trägt den namen "crimes" (psw:root), sie ist über den Port 3306 ereichbar.
-
-## Data Lake
-Der Data Lake ist über ein HDFS realisiert. 
+Die Datenbank ist realsiert mit einer MySQL Datenbank und läuft in einem eigenen Container und ist über den mysql-service und dem Port 3306 erreichbar. Sie übernimmt aus Zeitgründen mit der Tabelle Chicago_Crimes_sample auch die Funktion des Data Lakes.
+ 
 ## Big Data Messaging
-Text
+Für das Messaging wird Apache Kafka, speziell der Strimzi Kafka Operator verwendet. Die Helm Chart von Strimzi ist als lokale Kopie abgelegt, weil sie den Status 'deprecated' hat und deshalb nicht mit ewiger Verfügbarkeit gerechnet werden kann. Diese Helm Chart start den Strimzi Kafka Operator. Dieser startet wiederum den in strimzi_cluster.yaml definierten listener und zookeeper. 
 
-# Debugging
+Das Kafka Publishing wird von eigenen Pod übernommen, der aktuell zufällige Werte aus der Datenbanktabelle Chicago_Crimes_sample liest. Die so erstellten Messages werden von Spark weiterverarbeitet.
 
-minikube start --addons=ingress --driver=none --memory 4096 --cpus 2 
+## Spark
 
-# Screencast
-[Link]()
+Spark ist dafür verantwortlich, die einzelnen Messages zu gruppieren und zu zählen und das Ergebnis in die Datenbank zu schreiben, von wo aus es von der Web App gelesen wird.
+
 
